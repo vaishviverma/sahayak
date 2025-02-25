@@ -1,0 +1,32 @@
+{
+    "Invoice Number": "123",
+    "Supplier Info": {
+        "Name": "ABC Wholesale Ltd",
+        "Address": "123 Industrial Area, Sector 00, Noida",
+        "Contact": {
+            "Email": "sales@abcwholesale.com",
+            "Phone No.": "91 12345 67891"
+        }
+    },
+    "Date": "2025-02-24",
+    "Items": [
+        {
+            "name": "Electronic accessories",
+            "quantity": 5,
+            "price": 50.0
+        },
+        {
+            "name": "Sports and travel",
+            "quantity": 10,
+            "price": 40.0
+        }
+    ],
+    "Tax": 5.0,
+    "Discount": 60.0,
+    "Shipping": 50.0,
+    "Subtotal": 650.0,
+    "Total": 645.0,
+    "Amount Paid": 500.0,
+    "Amount Due": 145.0,
+    "Due Date": "2025-02-26"
+}

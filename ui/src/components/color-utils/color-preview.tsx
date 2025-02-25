@@ -1,12 +1,13 @@
-import type { BoxProps } from '@mui/material/Box';
 
 import { forwardRef } from 'react';
 
 import Box from '@mui/material/Box';
+import type { BoxProps } from '@mui/material/Box';
 
 import { varAlpha } from 'src/theme/styles';
 
 import type { ColorPreviewProps } from './types';
+
 
 // ----------------------------------------------------------------------
 

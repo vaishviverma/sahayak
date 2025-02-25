@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react"; // React Hooks
+
 import type { CardProps } from '@mui/material/Card';
 import type { ChartOptions } from 'src/components/chart';
 
@@ -15,22 +17,44 @@ import { Chart, useChart, ChartLegends } from 'src/components/chart';
 type Props = CardProps & {
   title?: string;
   subheader?: string;
-  chart: {
-    colors?: string[];
-    series: {
-      label: string;
-      value: number;
-    }[];
-    options?: ChartOptions;
-  };
+  apiEndpoint: string; // Local API endpoint for fetching data
 };
 
-export function AnalyticsCurrentVisits({ title, subheader, chart, ...other }: Props) {
+
+export function Distribution({ title, subheader, apiEndpoint, ...other }: Props) {
   const theme = useTheme();
+  const [chartData, setChartData] = useState<{ label: string; value: number }[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const chartSeries = chart.series.map((item) => item.value);
+  useEffect(() => {
+    const fetchChartData = async () => {
+      try {
+        const response = await fetch(apiEndpoint);
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        if (data?.series) {
+          setChartData(data.series);
+        } else {
+          throw new Error('Invalid API response format');
+        } // Assuming API returns { series: [{ label, value }] }
+      } catch (err) {
+        setError((err as Error).message);
+        console.error('Error fetching chart data:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const chartColors = chart.colors ?? [
+    fetchChartData();
+  }, [apiEndpoint]);
+
+  const chartSeries = Array.isArray(chartData) ? chartData.map((item) => item.value) : [];
+  const chartLabels = Array.isArray(chartData) ? chartData.map((item) => item.label) : [];
+
+  const chartColors = [
     theme.palette.primary.main,
     theme.palette.warning.main,
     theme.palette.secondary.dark,
@@ -40,7 +64,7 @@ export function AnalyticsCurrentVisits({ title, subheader, chart, ...other }: Pr
   const chartOptions = useChart({
     chart: { sparkline: { enabled: true } },
     colors: chartColors,
-    labels: chart.series.map((item) => item.label),
+    labels: chartLabels,
     stroke: { width: 0 },
     dataLabels: { enabled: true, dropShadow: { enabled: false } },
     tooltip: {
@@ -50,29 +74,34 @@ export function AnalyticsCurrentVisits({ title, subheader, chart, ...other }: Pr
       },
     },
     plotOptions: { pie: { donut: { labels: { show: false } } } },
-    ...chart.options,
   });
 
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
 
-      <Chart
-        type="pie"
-        series={chartSeries}
-        options={chartOptions}
-        width={{ xs: 240, xl: 260 }}
-        height={{ xs: 240, xl: 260 }}
-        sx={{ my: 6, mx: 'auto' }}
-      />
+      {loading ? (
+        <p>Loading chart...</p>
+      ) : (
+        <>
+          <Chart
+            type="pie"
+            series={chartSeries}
+            options={chartOptions}
+            width={{ xs: 240, xl: 260 }}
+            height={{ xs: 240, xl: 260 }}
+            sx={{ my: 6, mx: 'auto' }}
+          />
 
-      <Divider sx={{ borderStyle: 'dashed' }} />
+          <Divider sx={{ borderStyle: 'dashed' }} />
 
-      <ChartLegends
-        labels={chartOptions?.labels}
-        colors={chartOptions?.colors}
-        sx={{ p: 3, justifyContent: 'center' }}
-      />
+          <ChartLegends
+            labels={chartLabels}
+            colors={chartColors}
+            sx={{ p: 3, justifyContent: 'center' }}
+          />
+        </>
+      )}
     </Card>
   );
 }

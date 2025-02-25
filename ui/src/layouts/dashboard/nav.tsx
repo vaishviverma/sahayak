@@ -12,8 +12,8 @@ import { usePathname } from 'src/routes/hooks';
 import { RouterLink } from 'src/routes/components';
 
 import { varAlpha } from 'src/theme/styles';
+import logo from "src/layouts/dashboard/SAHAYAK.png";
 
-import { Logo } from 'src/components/logo';
 import { Scrollbar } from 'src/components/scrollbar';
 
 
@@ -113,7 +113,18 @@ export function NavContent({ data, slots, sx }: NavContentProps) {
 
   return (
     <>
-      <Logo />
+      <Box
+        component="img"
+        src={logo} 
+        alt="Logo"
+        sx={{
+          width: 180, // Adjust width as needed
+          height: "auto", // Maintains aspect ratio
+          mx: "auto", // Centers the logo horizontally
+          my: 0, // Adds vertical margin
+        }}
+      />
+
 
       {slots?.topArea}
 

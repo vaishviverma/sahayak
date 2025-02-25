@@ -1,9 +1,8 @@
-import type { BoxProps } from '@mui/material/Box';
 
-import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
-
+import type { BoxProps } from '@mui/material/Box';
+import Box from '@mui/material/Box';
 // ----------------------------------------------------------------------
 
 export const StyledLegend = styled(Box)(({ theme }) => ({
@@ -38,36 +37,36 @@ type Props = BoxProps & {
 };
 
 export function ChartLegends({
-  icons,
-  values,
-  sublabels,
+  icons = [],  // Ensure default empty array
+  values = [],
+  sublabels = [],
   labels = [],
   colors = [],
   ...other
 }: Props) {
   return (
     <Box gap={2} display="flex" flexWrap="wrap" {...other}>
-      {labels?.map((series, index) => (
-        <Stack key={series} spacing={1}>
+      {labels.map((series, index) => (
+        <Stack key={`${series}-${index}`} spacing={1}>
           <StyledLegend>
-            {icons?.length ? (
+            {icons.length > index ? (
               <Box
                 component="span"
-                sx={{ color: colors[index], '& svg, & img': { width: 20, height: 20 } }}
+                sx={{ color: colors[index] || 'inherit', '& svg, & img': { width: 20, height: 20 } }}
               >
-                {icons?.[index]}
+                {icons[index]}
               </Box>
             ) : (
-              <StyledDot component="span" sx={{ color: colors[index] }} />
+              <StyledDot component="span" sx={{ color: colors[index] || 'inherit' }} />
             )}
 
             <Box component="span" sx={{ flexShrink: 0 }}>
               {series}
-              {sublabels && <> {` (${sublabels[index]})`}</>}
+              {sublabels.length > index && <> {` (${sublabels[index]})`}</>}
             </Box>
           </StyledLegend>
 
-          {values && <Box sx={{ typography: 'h6' }}>{values[index]}</Box>}
+          {values.length > index && <Box sx={{ typography: 'h6' }}>{values[index]}</Box>}
         </Stack>
       ))}
     </Box>
