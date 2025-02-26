@@ -1,7 +1,9 @@
 import google.generativeai as genai
 from .predictions import sales_forecast, predict_demand
-
-API_KEY = os.getenv("GEMINI_API_KEY")
+import os
+from dotenv import load_dotenv
+load_dotenv()
+API_KEY = os.getenv("GOOGLE_API_KEY")
 
 
 genai.configure(api_key=API_KEY)
