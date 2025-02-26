@@ -10,12 +10,12 @@ export default function Page() {
   return (
     <>
       <Helmet>
-        <title>Dashboard</title>
+        <title>Sahayak Dashboard</title>
         <meta
           name="description"
-          content="The starting point for your next project with Minimal UI Kit, built on the newest version of Material-UI ©, ready to be customized to your style"
+          content="Sahayak is an AI-powered chatbot designed to assist grocery store owners with sales analysis, invoice processing, and customer insights."
         />
-        <meta name="keywords" content="react,material,kit,application,dashboard,admin,template" />
+        
       </Helmet>
 
       <OverviewAnalyticsView />
