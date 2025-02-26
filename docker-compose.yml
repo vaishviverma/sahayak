@@ -11,7 +11,7 @@ services:
       - UVICORN_CMD=uvicorn main:app --host 0.0.0.0 --port 8000 --reload
     command: sh -c "$UVICORN_CMD"
     env_file:
-      - backend/.env
+      - ./backend/.env
 
   ui:
     build: ./ui
@@ -26,7 +26,7 @@ services:
       - NODE_ENV=development
     command: sh -c "npm install && npm start"
     env_file:
-      - ui/.env
+      - ./ui/.env
 
 
 volumes:
