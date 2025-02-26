@@ -1,0 +1,75 @@
+#  ui (React)
+ui/node_modules/
+ui/dist/
+ui/build/
+ui/.cache/
+ui/.npm/
+ui/.vscode/
+ui/.env.local
+ui/.env.development.local
+ui/.env.production.local
+ui/.env.test.local
+
+# Logs (React)
+ui/npm-debug.log*
+ui/yarn-debug.log*
+uii/yarn-error.log*
+
+# Editor/IDE-specific
+ui/.DS_Store
+ui/.idea/
+ui/.vscode/
+ui/*.swp
+
+# Backend (FastAPI)
+backend/__pycache__/
+backend/*.py[cod]
+backend/*.sqlite3
+backend/instance/
+backend/*.log
+backend/.env
+backend/.venv/
+backend/venv/
+backend/migrations/
+
+# Dependencies (FastAPI)
+backend/pip-log.txt
+backend/pip-delete-this-directory.txt
+backend/poetry.lock
+backend/Pipfile.lock
+
+# Virtual Environment
+backend/venv/
+backend/.venv/
+
+# Byte-compiled files
+backend/*.pyc
+backend/*.pyo
+backend/*.pyd
+
+# SQLite Database 
+backend/*.db
+backend/*.sqlite3
+
+# Static & Media Files (if dynamically generated)
+backend/staticfiles/
+backend/media/
+
+# Ignore test coverage reports
+backend/htmlcov/
+backend/.coverage
+backend/.coverage.*
+backend/.cache
+backend/nosetests.xml
+backend/coverage.xml
+backend/*.cover
+backend/.pytest_cache/
+
+# 🔹 Docker (if using Docker)
+docker-compose.override.yml
+*.pid
+*.sock
+
+# 🔹 MacOS-specific
+*.DS_Store
+

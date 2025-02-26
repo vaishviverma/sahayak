@@ -9,7 +9,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional
 import shutil
-from routes import inventory
 from services import gemini_service, invoice_processor, sales_forecast, analysis
 
 app = FastAPI()

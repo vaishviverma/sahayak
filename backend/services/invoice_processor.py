@@ -2,7 +2,7 @@ import pdfplumber
 import json
 import google.generativeai as genai
 from pathlib import Path
-from routes import inventory
+from .inventory import update_inventory
 
 def extract_text_from_pdf(pdf_path: Path) -> str:
     text = ""
@@ -45,4 +45,4 @@ def parse_invoice_with_gemini(invoice_text: str) -> dict:
 
 def process_invoice(pdf_path: Path) -> dict:
     invoice_text = extract_text_from_pdf(pdf_path)
-    inventory.update_inventory(parse_invoice_with_gemini(invoice_text))
+    update_inventory(parse_invoice_with_gemini(invoice_text))

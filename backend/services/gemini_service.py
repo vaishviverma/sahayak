@@ -1,4 +1,5 @@
 import google.generativeai as genai
+from .predictions import sales_forecast, predict_demand
 
 with open("./api_key.txt", "r") as file:
     API_KEY = file.read().strip()
@@ -25,6 +26,31 @@ def analyze_input(user_message: str, file_attached: bool, user_id: str, file_pat
 
     if user_id not in chat_sessions:
         chat_sessions[user_id] = []
+    
+
+    if "sales forecast" in user_message.lower() or "predict sales" in user_message.lower():
+        forecast = sales_forecast()  
+        user_message += f"\n\nAlso, analyze this sales forecast and give insights. Mention that you received these info from the customer sales data: {forecast}"
+
+    if "demand" in user_message.lower():
+        words = user_message.split()
+        product_line = None
+        date = datetime.today().strftime('%Y-%m-%d')  # Default to today's date
+
+        for i, word in enumerate(words):
+            if word.lower() in ["for", "of"] and i + 1 < len(words):
+                product_line = words[i + 1]  # Assume next word is product line
+            if word.lower() == "on" and i + 1 < len(words):
+                date = words[i + 1]  # Assume next word is date
+
+        if product_line:
+            predicted_quantity = predict_demand(product_line, date)
+            demand_response = f"Based on past sales, we expect to sell approximately {predicted_quantity} units of {product_line} on {date}."
+        else:
+            demand_response = "Please specify the product line for demand prediction."
+
+        return demand_response
+
 
     with open("prompt.txt", "r") as file:
         prompt = file.read().strip()
