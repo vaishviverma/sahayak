@@ -84,16 +84,35 @@ export function Chatbot({ title = "Chat with Sahayak", subheader }: { title?: st
       <Paper sx={{ p: 2, height: 400, overflowY: "auto", backgroundColor: theme.palette.background.default }}>
         {messages.map((msg, index) => (
           <div key={index} style={{ textAlign: msg.sender === "user" ? "right" : "left", marginBottom: 8 }}>
-            {msg.text && (
-              <Paper sx={{ display: "inline-block", p: 1.5, backgroundColor: msg.sender === "user" ? theme.palette.primary.light : theme.palette.grey[300] }}>
-                {msg.text}
-              </Paper>
-            )}
+            {msg.text || msg.fileName ? (
+              <Paper 
+                sx={{ 
+                  display: "inline-block", 
+                  p: 1.5, 
+                  backgroundColor: msg.sender === "user" ? theme.palette.primary.light : theme.palette.grey[300],
+                  borderRadius: 2,
+                  maxWidth: "75%", // Ensures messages don't get too wide
+                  wordBreak: "break-word" // Prevents text overflow issues
+                }}
+              >
+            {msg.text && <Typography variant="body1">{msg.text}</Typography>}
             {msg.fileName && (
-              <Paper sx={{ p: 1.5, mt: 1, backgroundColor: theme.palette.grey[300] }}>
-                📄 {msg.fileName}
-              </Paper>
+              <Typography 
+                sx={{ 
+                  display: "flex", 
+                  alignItems: "center", 
+                  mt: msg.text ? 1 : 0, 
+                  color: "#1976d2", 
+                  cursor: "pointer",
+                  wordBreak: "break-word"
+                }}
+              >
+                📄 <span style={{ marginLeft: 4 }}>{msg.fileName}</span>
+              </Typography>
             )}
+          </Paper>
+          ) : null}
+
           </div>
         ))}
         {error && <Typography color="error">{error}</Typography>}

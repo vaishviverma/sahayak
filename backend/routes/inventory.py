@@ -1,36 +1,26 @@
 import sqlite3
 import json
-
+from database_manipulate import insert_product, update_product_stock
 
 def update_inventory(parsed_data):
-    conn = sqlite3.connect("inventory.db")
-    cursor = conn.cursor()
-
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS inventory (
-        product_name TEXT PRIMARY KEY,
-        quantity INTEGER,
-        price REAL
-    )
-    """)
 
     for item in parsed_data["Items"]:
-        cursor.execute("SELECT quantity FROM inventory WHERE product_name = ?", (item["name"],))
+        conn = sqlite3.connect("database.db")
+        cursor = conn.cursor()
+        cursor.execute("SELECT unit FROM Products WHERE name = ?", (item["name"],))
         result = cursor.fetchone()
 
         if result:
-            new_quantity = result[0] + item["quantity"]
-            cursor.execute("UPDATE inventory SET quantity = ? WHERE product_name = ?", (new_quantity, item["name"]))
+            update_product_stock(item["name"], item["quantity"])
         else:
-            cursor.execute("INSERT INTO inventory (product_name, quantity, price) VALUES (?, ?, ?)",
-                           (item["name"], item["quantity"], item["price"]))
-
+            insert_product(item["name"],"", "",item["price"],item["price"]+20,item["quantity"])
+           
     conn.commit()
     conn.close()
     print("Inventory updated successfully!")
 
 
-conn = sqlite3.connect("inventory.db")
+conn = sqlite3.connect("database.db")
 cursor = conn.cursor()
-cursor.execute("SELECT * FROM inventory")
+cursor.execute("SELECT * FROM Products")
 print(cursor.fetchall())
