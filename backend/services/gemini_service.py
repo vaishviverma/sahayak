@@ -1,8 +1,7 @@
 import google.generativeai as genai
 from .predictions import sales_forecast, predict_demand
 
-with open("./api_key.txt", "r") as file:
-    API_KEY = file.read().strip()
+API_KEY = os.getenv("GEMINI_API_KEY")
 
 
 genai.configure(api_key=API_KEY)

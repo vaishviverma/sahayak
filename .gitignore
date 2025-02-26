@@ -73,3 +73,5 @@ docker-compose.override.yml
 # 🔹 MacOS-specific
 *.DS_Store
 
+backend/api_key.txt
+backend/.env
