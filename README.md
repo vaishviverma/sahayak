@@ -1,6 +1,6 @@
 # Sahayak: Your Grocery Store AI Assistant
 
-Sahayak is an AI-powered chatbot designed to assist grocery store owners with sales analysis, invoice processing, and customer insights. The project includes a React frontend and a FastAPI backend.
+Sahayak is an AI-powered assistant designed to assist grocery store owners with sales analysis, invoice processing, and customer insights. The project includes a React frontend and a FastAPI backend.
 
 ## Project Structure
 ```
